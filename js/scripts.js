@@ -1,4 +1,6 @@
 //backend
+
+  //blank variable to save registering players
 var player1 = "";
 var player2 = "";
 
@@ -6,6 +8,7 @@ var tossdice = function() {
   return Math.floor(Math.random() *6 + 1);
 };
 
+//player constuctor
 function Player(turn) {
   this.toss = 0;
   this.tempscore = 0;
@@ -14,10 +17,11 @@ function Player(turn) {
   this.playerName = "";
 }
 
+    //prototypes
 Player.prototype.tossone = function() {
   if (this.toss === 1) {
     this.tempscore = 0;
-    alert("Sorry " + this.playerName + ", you rolled a 1! Your turn is over!");
+    alert("Sorry " + this.playerName + ", you rolled a 1! Game Over!");
 
   } else {
     this.tempscore += this.toss;
@@ -27,10 +31,10 @@ Player.prototype.tossone = function() {
 Player.prototype.hold = function() {
   this.totalscore += this.tempscore;
   this.tempscore = 0;
-  alert(this.playerName + ", your turn is over, pass the mouse!");
+  alert(this.playerName + " Game Over! Pass To The Next Player!!");
 };
 
-Player.prototype.winnerCheck = function() {
+Player.prototype.checkWinner = function() {
   if (this.totalscore >= 100) {
     alert(this.playerName + " You are the winner!");
   }
@@ -52,7 +56,7 @@ $(document).ready(function() {
     player1 = new Player(true);
     player2 = new Player(false);
 
-    $(".player-gaming").show();
+    $(".gaming").show();
     $(".start-menu").hide();
 
     var player1Name = $(".player1Name").val();
@@ -69,7 +73,7 @@ $(document).ready(function() {
   });
 
   $("button#new-game").click(function(event) {
-    $(".player-gaming").hide();
+    $(".gaming").hide();
       clearValues();
         player1.newGame();
         player2.newGame();
@@ -102,24 +106,25 @@ $(document).ready(function() {
       $("#round-total-2").text(player2.tempscore);
     });
 
-  $("button#player1-hold").click(function(event) {
-    player1.hold();
 
-   $("#total-score-1").text(player1.totalscore);
-    $("#round-total-1").empty();
-     $("#die-toss-1").empty();
+    $("button#player1-hold").click(function(event) {
+      player1.hold();
 
-   player1.winnerCheck();
- });
+      $("#total-score-1").text(player1.totalscore);
+       $("#round-total-1").empty();
+        $("#die-toss-1").empty();
 
- $("button#player2-hold").click(function(event) {
-   player2.hold();
+       player1.winnerCheck();
+     });
 
-   $("#total-score-2").text(player2.totalscore);
-    $("#round-total-2").empty();
-     $("#die-toss-2").empty();
+     $("button#player2-hold").click(function(event) {
+       player2.hold();
 
-   player2.winnerCheck();
- });
+       $("#total-score-2").text(player2.totalscore);
+        $("#round-total-2").empty();
+         $("#die-toss-2").empty();
 
-});
+       player2.winnerCheck();
+     });
+
+    });
